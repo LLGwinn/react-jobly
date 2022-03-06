@@ -11,14 +11,15 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
  */
 
 class JoblyApi {
-  // the token for interactive with the API will be stored here.
+  // the token for interaction with the API will be stored here.
   static token;
 
   static async request(endpoint, data = {}, method = "get") {
     console.debug("API Call:", endpoint, data, method);
 
     //there are multiple ways to pass an authorization token, this is how you pass it in the header.
-    //this has been provided to show you another way to pass the token. you are only expected to read this code for this project.
+    //this has been provided to show you another way to pass the token. You are only expected to 
+    //read this code for this project.
     const url = `${BASE_URL}/${endpoint}`;
     const headers = { Authorization: `Bearer ${JoblyApi.token}` };
     const params = (method === "get")
@@ -43,7 +44,19 @@ class JoblyApi {
     return res.company;
   }
 
-  // obviously, you'll add a lot here ...
+  /** Get list of all companies */
+
+  static async getAllCompanies() {
+    let res = await this.request('companies');
+    return res.companies;
+  }
+
+  /** Get list of all jobs */
+  
+  static async getAllJobs() {
+    let res = await this.request('jobs');
+    return res.jobs;
+  }
 }
 
 // for now, put token ("testuser" / "password" on class)
