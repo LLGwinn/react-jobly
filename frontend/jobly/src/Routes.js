@@ -2,7 +2,7 @@ import React from 'react';
 import {Switch, Route} from 'react-router-dom';
 import Home from './Home';
 import CompaniesList from './CompaniesList';
-import Company from './Company';
+import CompanyWithJobs from './CompanyWithJobs';
 import JobsList from './JobsList';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
@@ -13,7 +13,7 @@ function Routes() {
     return(
         <Switch>
             <Route exact path='/companies/:handle'>
-                <Company />
+                <CompanyWithJobs/>
             </Route>
             <Route exact path='/companies'>
                 <CompaniesList />

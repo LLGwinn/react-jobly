@@ -1,0 +1,14 @@
+.Navbar {
+    background-color: dimgray;
+    padding: 10px;
+}
+.Navbar a {
+    color: gainsboro;
+    padding: 20px;
+    text-decoration: none;
+}
+
+.Navbar a.active {
+    color: white;
+    font-weight: bold;
+}
