@@ -20,7 +20,6 @@ function CompanyCard( {handle}) {
                 <p>{company.description}</p>
             </div>
         </Link>
-
     )
 }
 

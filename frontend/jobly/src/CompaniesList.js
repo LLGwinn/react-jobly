@@ -33,6 +33,7 @@ function CompaniesList() {
     }
 
     function reset(evt) {
+        document.getElementsByTagName('input')[0].value = "";
         search("");
     }
     
@@ -49,9 +50,6 @@ function CompaniesList() {
                 ? allCompanies.map(company => <CompanyCard handle={company.handle} key={company.handle}/>)
                 : <p>No results found for "{searchTerm}".</p>
             }
-
-            
-            
         </div>
     )
 }
