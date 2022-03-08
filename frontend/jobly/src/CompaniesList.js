@@ -3,12 +3,13 @@ import JoblyApi from './api';
 import CompanyCard from "./CompanyCard";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
+import LoadingSpinner from "./LoadingSpinner";
 import './CompaniesList.css';
 
 /** Shows a list of all companies: name, description */
 
 function CompaniesList() {
-    const [allCompanies, setAllCompanies] = useState([]);
+    const [allCompanies, setAllCompanies] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
 
     // API call to backend to get all companies, set state
@@ -36,6 +37,8 @@ function CompaniesList() {
         document.getElementsByTagName('input')[0].value = "";
         search("");
     }
+
+    if (!allCompanies) return <LoadingSpinner />
     
     return(
         <div>

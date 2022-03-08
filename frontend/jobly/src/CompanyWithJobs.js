@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {useParams} from 'react-router-dom';
 import JoblyApi from "./api";
+import JobCard from "./JobCard";
 import './CompanyWithJobs.css';
 
 function CompanyWithJobs() {
@@ -17,9 +18,10 @@ function CompanyWithJobs() {
     return(
         <div className="CompanyWithJobs">
            <p className="CompanyWithJobs-header">{company.name}</p>
+           <p>{company.description}</p>
            {company.jobs ?
                 <ul>
-                    {company.jobs.map(job => <li key={job.id}>{job.title}</li>)}
+                    {company.jobs.map(job => <li key={job.id}><JobCard job={job} /></li>)}
                 </ul> :
                 null
             }

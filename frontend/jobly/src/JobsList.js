@@ -4,9 +4,10 @@ import JobCard from "./JobCard";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './JobsList.css';
+import LoadingSpinner from './LoadingSpinner';
 
 function JobsList() {
-    const [jobs, setJobs] = useState([]);
+    const [jobs, setJobs] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
 
     useEffect( () => {
@@ -31,6 +32,8 @@ function JobsList() {
         document.getElementsByTagName('input')[0].value = "";
         search("");
     }
+
+    if (!jobs) return <LoadingSpinner />
 
     return(
         <div>

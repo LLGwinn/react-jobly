@@ -8,7 +8,6 @@ function JobCard(job) {
         ? addCommas(job.job.salary)
         : null;
     
-
     return(
         <div className='JobCard'>
             <p className='JobCard-header'>{job.job.title}</p>
