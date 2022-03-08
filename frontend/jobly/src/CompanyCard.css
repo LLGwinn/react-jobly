@@ -3,11 +3,16 @@
     box-shadow: 3px 3px lightgray;
     border-radius: 4px;
     padding: 10px 15px 5px 15px;
-    margin: 12px;
+    margin: 10px 20px;
 
 }
 
 .CompanyCard-header {
     font-size: 1.2rem;
     font-weight: bold;
+}
+
+.CompanyCard-link  {
+    text-decoration: none;
+    color: black;
 }

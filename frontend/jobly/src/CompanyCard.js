@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from 'react-router-dom';
 import JoblyApi from './api';
 import './CompanyCard.css';
 
@@ -13,10 +14,13 @@ function CompanyCard( {handle}) {
     }, [handle]);
 
     return(
-        <div className='CompanyCard'>
-            <p className='CompanyCard-header'>{company.name}</p>
-            <p>{company.description}</p>
-        </div>
+        <Link className='CompanyCard-link' to={`/companies/${company.handle}`}>
+            <div className='CompanyCard'>
+                <p className='CompanyCard-header'>{company.name}</p>
+                <p>{company.description}</p>
+            </div>
+        </Link>
+
     )
 }
 
