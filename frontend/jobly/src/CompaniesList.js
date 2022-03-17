@@ -18,7 +18,6 @@ function CompaniesList() {
     }, []);
 
     async function search(name) {
-        console.log('NAME PASSED INTO SEARCH:', name)
         const searchResults = await JoblyApi.getAllCompanies(name);
         setAllCompanies(searchResults);
     }
@@ -29,7 +28,6 @@ function CompaniesList() {
 
     function handleSubmit(evt) {
         evt.preventDefault();
-        console.log('SEARCH TERM TO SEND TO THE API:', searchTerm);
         search(searchTerm);
     }
 

@@ -1,8 +1,24 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import {Link} from 'react-router-dom';
+import TokenContext from './tokenContext';
+import './Home.css';
+import Button from 'react-bootstrap/Button';
 
 function Home() {
+    const {currUser} = useContext(TokenContext);
     return (
-        <p>HOME PAGE</p>
+        <div className='Home'> 
+            <p className='Home-title'>Jobly</p>
+            <p className='Home-message'>All the jobs in one convenient place.</p>
+            {currUser
+            ? <p className='Home-welcome'>Welcome back, {currUser.firstName}!</p>
+            : <div>
+                <Link to='/login'><Button variant='primary'>Log In</Button></Link>
+                <Link to='/signup'><Button variant='primary'>Sign Up</Button></Link>
+              </div>
+            }
+            
+        </div>
     )
 }
 

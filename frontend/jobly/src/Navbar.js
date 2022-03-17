@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import {NavLink} from 'react-router-dom';
+import TokenContext from "./tokenContext";
 import './Navbar.css';
 
-function Navbar( {token} ) {
+function Navbar() {
+    const {token, currUser, addToken, addCurrUser} = useContext(TokenContext);
+
+    function logOut() {
+        addToken(null);
+        addCurrUser(null);
+    }
+
     return(
         <nav className='Navbar'>
             <div className='Navbar-brand col-1'>
@@ -14,11 +22,11 @@ function Navbar( {token} ) {
             </div>
             <div className='Navbar-right col-4'>
                 {token 
-                    ? <NavLink exact to='/'>Username goes here</NavLink>
+                    ? <NavLink exact to='/profile'>Profile</NavLink>
                     : <NavLink exact to='/login'>Login</NavLink>
                 }
-                {token
-                    ? <NavLink exact to='/'>Log Out</NavLink>
+                {currUser
+                    ? <NavLink exact to='/' onClick={logOut}>Logout {currUser.username}</NavLink>
                     : <NavLink exact to='/signup'>Sign Up</NavLink>
                 }
             </div>
