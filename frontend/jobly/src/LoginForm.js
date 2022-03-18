@@ -1,18 +1,13 @@
-import React, {useState, useContext} from "react";
-import { useHistory } from "react-router-dom";
+import React, {useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
-import JoblyApi from "./api";
 import './LoginForm.css';
-import TokenContext from "./tokenContext";
 
-function LoginForm() {
+function LoginForm( {login} ) {
     const [formData, setFormData] = useState(
         {username: "",
          password: ""}
     );
-    const history = useHistory();
-    const {addToken, addCurrUser} = useContext(TokenContext);
 
     function handleChange(evt) {
         const {name, value} = evt.target;
@@ -23,10 +18,7 @@ function LoginForm() {
 
     async function handleSubmit(evt) {
         evt.preventDefault();
-        const authToken = await JoblyApi.authenticateUser(formData.username, formData.password);
-        addToken(authToken);
-        addCurrUser(formData.username);
-        history.push ('/companies');   
+        login(formData.username, formData.password)
     }
 
     return(

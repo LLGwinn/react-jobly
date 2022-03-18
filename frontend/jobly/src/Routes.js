@@ -9,7 +9,7 @@ import SignupForm from './SignupForm';
 import ProfileForm from './ProfileForm';
 import NotFound from './NotFound';
 
-function Routes() {
+function Routes( {signup, login} ) {
     return(
         <Switch>
             <Route exact path='/companies/:handle'>
@@ -22,10 +22,10 @@ function Routes() {
                 <JobsList />
             </Route>
             <Route exact path='/login'>
-                <LoginForm />
+                <LoginForm login={login}/>
             </Route>
             <Route exact path='/signup'>
-                <SignupForm />
+                <SignupForm signup={signup}/>
             </Route>
             <Route exact path='/profile'>
                 <ProfileForm />

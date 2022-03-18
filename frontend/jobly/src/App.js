@@ -1,44 +1,50 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
+import {useHistory} from 'react-router-dom';
 import './App.css';
 import Routes from './Routes';
 import Navbar from './Navbar';
-import TokenContext from './tokenContext';
+import AuthContext from './authContext';
 import JoblyApi from './api';
 
 function App() {
-  const [token, setToken] = useState(null);
-  const [currUser, setCurrUser] = useState(null);
+  const [token, setToken] = useState(localStorage.getItem('token'));
+  const [currUser, setCurrUser] = useState(JSON.parse(localStorage.getItem('currUser')));
+  const history = useHistory();
 
-  function addToken(authToken) {
-      setToken(authToken);
+  useEffect(function saveCredentialsToLocalStorage() {
+    localStorage.setItem('token', token);
+    localStorage.setItem('currUser', JSON.stringify(currUser));
+  }, [token, currUser])
+
+  async function login(username, password) {
+    const authToken = await JoblyApi.authenticateUser(username, password);
+    setToken(authToken);
+    const user = await JoblyApi.getUser(username);
+    setCurrUser(user);
+    history.push ('/');  
   }
 
-  async function addCurrUser(username) {
-      if(username) {
-        const user = await JoblyApi.getUser(username);
-        setCurrUser(user);
-      } else {
-      setCurrUser(null);
-      }
+  async function signup(newUser) {
+    const authToken = await JoblyApi.registerUser(newUser);
+    setToken(authToken);
+    const user = await JoblyApi.getUser(newUser.username);
+    setCurrUser(user);
+    history.push ('/'); 
   }
 
+  function logout() {
+    setToken('');
+    setCurrUser(null);
+  }
 
   return (
     <div className="App">
-      <TokenContext.Provider value={{token, currUser, addToken, addCurrUser}}>
-        <Navbar />
-        <Routes />
-      </TokenContext.Provider>
+      <AuthContext.Provider value={{currUser}}>
+        <Navbar logout={logout}/>
+        <Routes signup={signup} login={login}/>
+      </AuthContext.Provider>
     </div>
   );
 }
 
 export default App;
-
-/** Just created Context for the token. Need to create a function here
- *  to set the token so it can be done from any other component.
- * 
- *  The forms are all done, but there are no click handlers yet.
- * 
- *  I'm on Step 6.
- */

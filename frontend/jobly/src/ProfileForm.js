@@ -1,6 +1,6 @@
 import React, {useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import TokenContext from "./tokenContext";
+import AuthContext from "./authContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
@@ -8,7 +8,7 @@ import JoblyApi from "./api";
 import './ProfileForm.css';
 
 function ProfileForm() {
-    const {currUser, addCurrUser} = useContext(TokenContext);
+    const {currUser, addCurrUser} = useContext(AuthContext);
     const INITIAL_STATE = {username: currUser.username, fname:currUser.firstName, lname:currUser.lastName, 
                             email:currUser.email, password:''}
     const [formData, setFormData] = useState(INITIAL_STATE);

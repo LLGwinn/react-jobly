@@ -1,17 +1,12 @@
-import React, {useState, useContext} from "react";
-import { useHistory } from "react-router-dom";
-import TokenContext from "./tokenContext";
+import React, {useState} from "react";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './SignupForm.css';
-import JoblyApi from "./api";
 
-function SignupForm() {
-    const INITIAL_STATE={username:'hpotter', password:'hogwarts', fname:'Harry',
-                            lname:'Potter', email:'harry@hogwarts.edu'};
+function SignupForm( {signup} ) {
+    const INITIAL_STATE={username:'', password:'', fname:'',
+                            lname:'', email:''};
     const [formData, setFormData] = useState(INITIAL_STATE);
-    const history = useHistory();
-    const {addToken, addCurrUser} =useContext(TokenContext);
 
     function handleChange(evt) {
         const {name, value} = evt.target;
@@ -20,17 +15,14 @@ function SignupForm() {
         ))
     }
 
-    async function handleSubmit(evt) {
+    function handleSubmit(evt) {
         evt.preventDefault();
         const newUser = {username:formData.username, 
                          password:formData.password, 
                          firstName:formData.fname, 
                          lastName:formData.lname, 
                          email:formData.email}
-        const authToken = await JoblyApi.registerUser(newUser);
-        addToken(authToken);
-        addCurrUser(newUser.username);
-        history.push ('/companies');   
+        signup(newUser);
     }
 
     return(

@@ -1,14 +1,14 @@
 import React, { useContext } from "react";
 import {NavLink} from 'react-router-dom';
-import TokenContext from "./tokenContext";
+import AuthContext from "./authContext";
 import './Navbar.css';
 
-function Navbar() {
-    const {token, currUser, addToken, addCurrUser} = useContext(TokenContext);
+function Navbar( {logout} ) {
+    const {currUser} = useContext(AuthContext);
+    const token = localStorage.getItem('token');
 
     function logOut() {
-        addToken(null);
-        addCurrUser(null);
+        logout();
     }
 
     return(
@@ -21,7 +21,7 @@ function Navbar() {
                 {token && <NavLink exact to='/jobs'>Jobs</NavLink>}
             </div>
             <div className='Navbar-right col-4'>
-                {token 
+                {currUser
                     ? <NavLink exact to='/profile'>Profile</NavLink>
                     : <NavLink exact to='/login'>Login</NavLink>
                 }
@@ -30,12 +30,6 @@ function Navbar() {
                     : <NavLink exact to='/signup'>Sign Up</NavLink>
                 }
             </div>
-            
-
-
-            
-         
-
 
         </nav>
     )
