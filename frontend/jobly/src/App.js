@@ -17,19 +17,27 @@ function App() {
   }, [token, currUser])
 
   async function login(username, password) {
-    const authToken = await JoblyApi.authenticateUser(username, password);
-    setToken(authToken);
-    const user = await JoblyApi.getUser(username);
-    setCurrUser(user);
-    history.push ('/');  
+    try {
+      const authToken = await JoblyApi.authenticateUser(username, password);
+      setToken(authToken);
+      const user = await JoblyApi.getUser(username);
+      setCurrUser(user);
+      history.push ('/'); 
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   async function signup(newUser) {
-    const authToken = await JoblyApi.registerUser(newUser);
-    setToken(authToken);
-    const user = await JoblyApi.getUser(newUser.username);
-    setCurrUser(user);
-    history.push ('/'); 
+    try {
+      const authToken = await JoblyApi.registerUser(newUser);
+      setToken(authToken);
+      const user = await JoblyApi.getUser(newUser.username);
+      setCurrUser(user);
+      history.push ('/');
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   function logout() {

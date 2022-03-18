@@ -22,11 +22,15 @@ function ProfileForm() {
     }
 
     async function handleSubmit(evt) {
-        evt.preventDefault();
-        const updatedUser = await JoblyApi.updateUser(
-           currUser.username, formData.fname, formData.lname, formData.email, formData.password);
-        addCurrUser(updatedUser.username);
-        setAlert(`${currUser.username} updated sucessfully!`)
+        try {
+            evt.preventDefault();
+            const updatedUser = await JoblyApi.updateUser(
+            currUser.username, formData.fname, formData.lname, formData.email, formData.password);
+            addCurrUser(updatedUser.username);
+            setAlert(`${currUser.username} updated sucessfully!`)
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     return(

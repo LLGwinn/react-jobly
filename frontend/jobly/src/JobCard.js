@@ -1,4 +1,4 @@
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext} from 'react';
 import Button from 'react-bootstrap/Button';
 import './JobCard.css';
 import './formatNumber';
@@ -7,8 +7,6 @@ import addCommas from './formatNumber';
 import AuthContext from './authContext';
 
 function JobCard(job) {
-    const [jobStatus, setJobStatus] = useState('applied');
-
     const formattedSalary = job.job.salary !== null
         ? addCommas(job.job.salary)
         : null;
@@ -16,8 +14,12 @@ function JobCard(job) {
     const {currUser, setCurrUser, token} = useContext(AuthContext);
 
     async function updateUserApps() {
-        const user = await JoblyApi.getUser(currUser.username);
-        setCurrUser(user);
+        try {
+            const user = await JoblyApi.getUser(currUser.username);
+            setCurrUser(user);
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     async function applyToJob (evt) {
@@ -26,8 +28,7 @@ function JobCard(job) {
             const jobId = job.job.id;
             const username = currUser.username;
             await JoblyApi.applyToJob(username, jobId, token);
-            updateUserApps();
-            
+            updateUserApps();  
         } catch (err) {
             alert('You have already applied to that job.');
         }
@@ -48,8 +49,7 @@ function JobCard(job) {
                 APPLY
                   </Button>
                 }
-            </div>
-            
+            </div>     
         </div>
     )
 }

@@ -15,7 +15,6 @@ function CompaniesList() {
     const [searchTerm, setSearchTerm] = useState("");
 
     const {token} = useContext(AuthContext);
-    console.log('TOKEN:', token)
     if (!token) return <UnauthorizedMessage />
 
     // API call to backend to get all companies, set state
@@ -24,8 +23,12 @@ function CompaniesList() {
     }, []);
 
     async function search(name) {
-        const searchResults = await JoblyApi.getAllCompanies(name);
-        setAllCompanies(searchResults);
+        try {
+            const searchResults = await JoblyApi.getAllCompanies(name);
+            setAllCompanies(searchResults);
+        } catch (err) {
+            console.log(err)
+        }
     }
 
     function handleChange(evt) {

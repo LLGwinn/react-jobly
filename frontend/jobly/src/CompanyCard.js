@@ -8,7 +8,11 @@ function CompanyCard( {handle}) {
 
     useEffect( () => {
         async function getCompanyInfo() {
-            setCompany(await JoblyApi.getCompany(handle));
+            try {
+                setCompany(await JoblyApi.getCompany(handle));
+            } catch(err) {
+                console.log(err)
+            }
         }
         getCompanyInfo();
     }, [handle]);

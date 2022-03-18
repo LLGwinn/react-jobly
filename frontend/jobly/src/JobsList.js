@@ -20,8 +20,12 @@ function JobsList() {
     }, []);
 
     async function search(title) {
-        const searchResults = await JoblyApi.getAllJobs(title);
-        setJobs(searchResults);
+        try {
+            const searchResults = await JoblyApi.getAllJobs(title);
+            setJobs(searchResults);
+        } catch(err) {
+            console.log(err)
+        }
     }
 
     function handleChange(evt) {

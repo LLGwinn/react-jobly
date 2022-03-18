@@ -15,7 +15,7 @@ class JoblyApi {
   static token;
 
   static async request(endpoint, data = {}, method = "get") {
-    console.debug("API Call:", endpoint, data, method);
+    //console.debug("API Call:", endpoint, data, method);
 
     //there are multiple ways to pass an authorization token, this is how you pass it in the header.
     //this has been provided to show you another way to pass the token. You are only expected to 
@@ -40,67 +40,99 @@ class JoblyApi {
   /** Get details on a company by handle. */
 
   static async getCompany(handle) {
-    const res = await this.request(`companies/${handle}`);
-    return res.company;
+    try {
+      const res = await this.request(`companies/${handle}`);
+      return res.company;
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   /** Get list of all companies */
 
   static async getAllCompanies(name) {
-    const query = name !== "" ? `/?name=${name}`:"";
-    const res = await this.request(`companies${query}`);
-    return res.companies;
+    try {
+      const query = name !== "" ? `/?name=${name}`:"";
+      const res = await this.request(`companies${query}`);
+      return res.companies;
+    } catch(err) {
+      console.log(err)
+    }
   }
 
   /** Get list of all jobs */
   
   static async getAllJobs(title) {
-    const query = title !== "" ? `/?title=${title}`:"";
-    const res = await this.request(`jobs${query}`);
-    return res.jobs;
+    try {
+      const query = title !== "" ? `/?title=${title}`:"";
+      const res = await this.request(`jobs${query}`);
+      return res.jobs;
+    } catch(err) {
+      console.log(err)
+    }
   }
 
     /** Get details on a user by username. */
 
     static async getUser(username) {
-      const res = await this.request(`users/${username}`);
-      return res.user;
+      try {
+        const res = await this.request(`users/${username}`);
+        return res.user;
+      } catch(err) {
+        console.log(err)
+      }
     }
 
     /** Update user profile. */
 
     static async updateUser(username, firstName, lastName, email, password) {
-      const updateData = {firstName, lastName, email, password}
-      const res = await this.request(`users/${username}`, 
-                  updateData, 'patch');
-      return res.user;
+      try {
+        const updateData = {firstName, lastName, email, password}
+        const res = await this.request(`users/${username}`, 
+                    updateData, 'patch');
+        return res.user;
+      } catch(err) {
+        console.log(err)
+      }
     }
 
     /** Authenticate username/password and return token */
 
     static async authenticateUser(username, password) {
-      const res = await this.request('auth/token', {username, password}, 'post');
-      JoblyApi.token = res.token;
-      return res.token;
+      try {
+        const res = await this.request('auth/token', {username, password}, 'post');
+        JoblyApi.token = res.token;
+        return res.token;
+      } catch(err) {
+        console.log(err)
+      }
     }
 
     /** Register new user and return token */
 
     static async registerUser(user) {
-      const {username, password, firstName, lastName, email} = user;
-      const res = await this.request('auth/register', 
-                          {username, password, firstName, lastName, email}, 'post');
-      JoblyApi.token = res.token;
-      return res.token;
+      try {
+        const {username, password, firstName, lastName, email} = user;
+        const res = await this.request('auth/register', 
+                            {username, password, firstName, lastName, email}, 'post');
+        JoblyApi.token = res.token;
+        return res.token;
+      } catch(err) {
+        console.log(err)
+      }
     }
 
     /** Apply to job */
 
     static async applyToJob(username, id, token) {
-      JoblyApi.token = token;
-      const res = await this.request(`users/${username}/jobs/${id}`, {}, 'post');
-      console.log(res)
-      return res;
+      try {
+        JoblyApi.token = token;
+        const res = await this.request(`users/${username}/jobs/${id}`, {}, 'post');
+        console.log(res)
+        return res;
+      } catch(err) {
+        console.log(err)
+      }
     }
 
 }

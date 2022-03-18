@@ -16,7 +16,7 @@ function LoginForm( {login} ) {
         ))
     }
 
-    async function handleSubmit(evt) {
+    function handleSubmit(evt) {
         evt.preventDefault();
         login(formData.username, formData.password)
     }
