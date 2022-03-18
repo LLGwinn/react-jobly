@@ -1,14 +1,19 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import JoblyApi from "./api";
 import JobCard from "./JobCard";
+import AuthContext from "./authContext";
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import './JobsList.css';
 import LoadingSpinner from './LoadingSpinner';
+import UnauthorizedMessage from "./UnauthorizedMessage";
 
 function JobsList() {
     const [jobs, setJobs] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+
+    const {token} = useContext(AuthContext);
+    if (!token) return <UnauthorizedMessage />
 
     useEffect( () => {
         search("");
@@ -32,9 +37,9 @@ function JobsList() {
         document.getElementsByTagName('input')[0].value = "";
         search("");
     }
-
+    
     if (!jobs) return <LoadingSpinner />
-
+    
     return(
         <div>
             <Form className='JobsList-form' onSubmit={handleSubmit}>

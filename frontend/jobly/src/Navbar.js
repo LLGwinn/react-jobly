@@ -4,8 +4,7 @@ import AuthContext from "./authContext";
 import './Navbar.css';
 
 function Navbar( {logout} ) {
-    const {currUser} = useContext(AuthContext);
-    const token = localStorage.getItem('token');
+    const {currUser, token} = useContext(AuthContext);
 
     function logOut() {
         logout();
@@ -17,8 +16,8 @@ function Navbar( {logout} ) {
                 <NavLink  exact to='/'>Jobly</NavLink>
             </div>
             <div className='col-6 ms-4 me-3'>
-                {token && <NavLink exact to='/companies'>Companies</NavLink>}
-                {token && <NavLink exact to='/jobs'>Jobs</NavLink>}
+                {token !== '' && <NavLink exact to='/companies'>Companies</NavLink>}
+                {token !== '' && <NavLink exact to='/jobs'>Jobs</NavLink>}
             </div>
             <div className='Navbar-right col-4'>
                 {currUser

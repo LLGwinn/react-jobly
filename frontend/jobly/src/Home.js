@@ -5,7 +5,7 @@ import './Home.css';
 import Button from 'react-bootstrap/Button';
 
 function Home() {
-    const {currUser, token} = useContext(AuthContext);
+    const {currUser} = useContext(AuthContext);
     return (
         <div className='Home'> 
             <p className='Home-title'>Jobly</p>

@@ -1,6 +1,8 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import JoblyApi from './api';
 import CompanyCard from "./CompanyCard";
+import AuthContext from "./authContext";
+import UnauthorizedMessage from './UnauthorizedMessage';
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import LoadingSpinner from "./LoadingSpinner";
@@ -11,6 +13,10 @@ import './CompaniesList.css';
 function CompaniesList() {
     const [allCompanies, setAllCompanies] = useState(null);
     const [searchTerm, setSearchTerm] = useState("");
+
+    const {token} = useContext(AuthContext);
+    console.log('TOKEN:', token)
+    if (!token) return <UnauthorizedMessage />
 
     // API call to backend to get all companies, set state
     useEffect( () => {
@@ -52,6 +58,7 @@ function CompaniesList() {
                 : <p>No results found for "{searchTerm}".</p>
             }
         </div>
+        
     )
 }
 

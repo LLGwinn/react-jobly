@@ -1,12 +1,17 @@
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useContext} from "react";
 import {useParams} from 'react-router-dom';
 import JoblyApi from "./api";
 import JobCard from "./JobCard";
+import AuthContext from "./authContext";
+import UnauthorizedMessage from "./UnauthorizedMessage";
 import './CompanyWithJobs.css';
 
 function CompanyWithJobs() {
     const {handle} = useParams();
     const [company, setCompany] = useState("");
+
+    const {token} = useContext(AuthContext);
+    if (!token) return <UnauthorizedMessage />;
 
     useEffect(() => {
         async function getCompanyInfo() { 
