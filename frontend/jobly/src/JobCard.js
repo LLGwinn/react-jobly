@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import Button from 'react-bootstrap/Button';
 import './JobCard.css';
 import './formatNumber';
@@ -7,26 +7,31 @@ import addCommas from './formatNumber';
 import AuthContext from './authContext';
 
 function JobCard(job) {
+    const [jobStatus, setJobStatus] = useState('applied');
+
     const formattedSalary = job.job.salary !== null
         ? addCommas(job.job.salary)
         : null;
 
-    const {currUser} = useContext(AuthContext);
+    const {currUser, setCurrUser, token} = useContext(AuthContext);
 
-    async function applyToJob (evt) {
-        const jobId = job.job.id;
-        const user = currUser.username;
-        await JoblyApi.applyToJob(user, jobId);
+    async function updateUserApps() {
+        const user = await JoblyApi.getUser(currUser.username);
+        setCurrUser(user);
     }
 
-    const buttonText = currUser.applications.includes(job.job.id)
-        ? 'APPLIED'
-        : 'APPLY'
-
-    const disabledStatus = currUser.applications.includes(job.job.id)
-        ? true
-        : false
-    
+    async function applyToJob (evt) {
+        try {
+            evt.preventDefault();
+            const jobId = job.job.id;
+            const username = currUser.username;
+            await JoblyApi.applyToJob(username, jobId, token);
+            updateUserApps();
+            
+        } catch (err) {
+            alert('You have already applied to that job.');
+        }
+    }
 
     return(
         <div className='JobCard'>
@@ -35,7 +40,14 @@ function JobCard(job) {
             <p className='JobCard-small'>Salary: {formattedSalary}<br />
                 Equity: {job.job.equity}</p>
             <div className='text-end'>
-                <Button variant='danger' onClick={applyToJob} disabled={disabledStatus}>{buttonText}</Button>
+                {currUser.applications.includes(job.job.id)
+                ? <Button variant='danger'  disabled>
+                        APPLIED
+                  </Button>
+                : <Button variant='danger' onClick={applyToJob}>
+                APPLY
+                  </Button>
+                }
             </div>
             
         </div>
